@@ -37,9 +37,9 @@ nav a {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
  }
 
- ul{
+ #hobbies li{
     background-color: rgb(45, 56, 52);
-    font: italic;
+    font-style: italic;
     color: bisque;
     border: 1px solid #ccc;
  }
