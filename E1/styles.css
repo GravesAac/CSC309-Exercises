@@ -3,7 +3,7 @@ body{
     font-family: cursive;
 }
 
-h1 {
+header {
     text-align: center;
     font-size: xx-large;
     color: rgb(217, 29, 8);
@@ -19,7 +19,7 @@ nav a {
     background-color: yellowgreen;
  }
  
- .section {
+ section {
     padding: 0.5cm;
     margin: auto;
  }
@@ -34,7 +34,7 @@ nav a {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
  }
 
- #hobbies ul li {
+ #hobbies li {
     background-color: rgb(45, 56, 52);
     font: italic;
     color: bisque;
