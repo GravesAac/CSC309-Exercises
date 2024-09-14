@@ -1,4 +1,4 @@
-function groupby(arr, property) {
+function groupBy(arr, property) {
     result = {};
     for (var j = 0; j < arr.length; j++) {
         for (const prop in arr[j]) {
@@ -113,4 +113,3 @@ module.exports = {
     firstNonRepeatingChar,
   };
 
-  
