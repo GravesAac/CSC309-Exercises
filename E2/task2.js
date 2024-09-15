@@ -42,35 +42,35 @@ document.addEventListener("DOMContentLoaded", function () {
     validateForm();
 })
 
-document.addEventListener("DOMContentLoaded", function () {
-    function todoApp() {
-        let buttonClick = document.getElementById("addTodoButton");
-        buttonClick.addEventListener("click", function () {
-            let inputField = document.getElementById("newTodo");
-            if (inputField.value !== "") {
-                let li = document.createElement('li'); // li should be created for each to do in this case
-                
-                // create the checkbox
-                let checkbox = document.createElement("INPUT");
-                checkbox.setAttribute("type", "checkbox");
-                checkbox.addEventListener("change", function () {
-                    if (checkbox.checked) {
-                        li.style.textDecoration = "line-through";  // Strike-through when checked
-                    } else {
-                        li.style.textDecoration = "none";  // Remove strike-through when unchecked
-                    }
-                });
+// document.addEventListener("DOMContentLoaded", function () {
+//     function todoApp() {
+//         let buttonClick = document.getElementById("addTodoButton");
+//         buttonClick.addEventListener("click", function () {
+//             let inputField = document.getElementById("newTodo");
+//             if (inputField.value !== "") {
+//                 let li = document.createElement('li'); // li should be created for each to do in this case
 
-                li.appendChild(checkbox);
-                let textNode = document.createTextNode(inputField.value);
-                li.appendChild(textNode);
-                document.getElementById("todoList").appendChild(li);
-                inputField.value = "";
-            }
-        });
-    }
+//                 // create the checkbox
+//                 let checkbox = document.createElement("INPUT");
+//                 checkbox.setAttribute("type", "checkbox");
+//                 checkbox.addEventListener("change", function () {
+//                     if (checkbox.checked) {
+//                         li.style.textDecoration = "line-through";  // Strike-through when checked
+//                     } else {
+//                         li.style.textDecoration = "none";  // Remove strike-through when unchecked
+//                     }
+//                 });
 
-    todoApp();
-})
+//                 li.appendChild(checkbox);
+//                 let textNode = document.createTextNode(inputField.value);
+//                 li.appendChild(textNode);
+//                 document.getElementById("todoList").appendChild(li);
+//                 inputField.value = "";
+//             }
+//         });
+//     }
+
+//     todoApp();
+// })
 
 
