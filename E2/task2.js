@@ -64,6 +64,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 li.appendChild(checkbox);
                 let textNode = document.createTextNode(inputField.value);
                 li.appendChild(textNode);
+
+                let deleteButton = document.createElement("button");
+                deleteButton.textContent = "X";  // Set button text
+                deleteButton.style.marginLeft = "10px"; // Add some spacing for aesthetics
+                // Add click event listener to delete the task
+                deleteButton.addEventListener("click", function() {
+                    li.remove();  // Remove the parent <li> (the task)
+                });
+
+                li.appendChild(deleteButton);  // Append the delete button to the list item
+
                 document.getElementById("todoList").appendChild(li);
                 inputField.value = "";
             }
