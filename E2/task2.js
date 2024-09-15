@@ -1,18 +1,23 @@
 
 const isEmpty = str => !str.trim().length;
 
-function addListElement() {
-    let buttonclick = document.getElementById("addItemButton");
-    buttonclick.addEventListener("click", function () {
-        let inputField = document.getElementById("itemInput");
-        if (!isEmpty(inputField.value)) {
-            let li = document.createElement('li');
-            li.textContent = inputField.value;
-            document.getElementById("itemList").appendChild(li);
-            inputField.value = ''; // clear the input field after each click;
-        }
-    });
-}
+document.addEventListener("DOMContentLoaded", function () {
+    // This function will run once the DOM is fully loaded
+    function addListElement() {
+        let buttonclick = document.getElementById("addItemButton");
+        buttonclick.addEventListener("click", function () {
+            let inputField = document.getElementById("itemInput");
+            if (!isEmpty(inputField.value)) {
+                let li = document.createElement('li');
+                li.textContent = inputField.value;
+                document.getElementById("itemList").appendChild(li);
+                inputField.value = ''; // clear the input field after each click;
+            }
+        });
+    }
+
+    addListElement(); // Call the function to set up the event listener
+});
 
 function validateForm() {
     let buttonclick = document.getElementById("submitButton");
