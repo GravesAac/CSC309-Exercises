@@ -43,6 +43,63 @@ document.addEventListener("DOMContentLoaded", function () {
 // })
 
 document.addEventListener("DOMContentLoaded", function () {
+    function validateForm() {
+        let buttonclick = document.getElementById("submitButton");
+        buttonclick.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent form submission before validation
+
+            let fields = ["name", "email", "password", "repeatPassword"];
+            let fieldLength = fields.length;
+            let fieldName = "";
+
+            for (var i = 0; i < fieldLength; i++) {
+                fieldName = fields[i];
+                let field = document.getElementById("registrationForm")[fieldName];
+
+                // Check if any field is empty
+                if (field.value === "") {
+                    alert(fieldName + " cannot be empty, please re-enter your information");
+                    field.style.borderColor = "red";
+                    return false;
+                } else {
+                    field.style.borderColor = ""; // Reset border color if field is valid
+                }
+            }
+
+            // Password validation
+            let password = document.getElementById("registrationForm")["password"].value;
+            let repeatPassword = document.getElementById("registrationForm")["repeatPassword"].value;
+            let passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+
+            // Check password requirements
+            if (!passwordPattern.test(password)) {
+                alert("Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one digit.");
+                document.getElementById("registrationForm")["password"].style.borderColor = "red";
+                return false;
+            } else {
+                document.getElementById("registrationForm")["password"].style.borderColor = ""; // Reset border color
+            }
+
+            // Check if password and repeat password match
+            if (password !== repeatPassword) {
+                alert("Passwords do not match. Please try again.");
+                document.getElementById("registrationForm")["repeatPassword"].style.borderColor = "red";
+                return false;
+            } else {
+                document.getElementById("registrationForm")["repeatPassword"].style.borderColor = ""; // Reset border color
+            }
+
+            let success = document.getElementById("successMessage");
+            success.innerHTML = "Wow, nice submission!";
+            return true;
+        });
+    }
+
+    validateForm();
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
     function todoApp() {
         let buttonClick = document.getElementById("addTodoButton");
         buttonClick.addEventListener("click", function () {
