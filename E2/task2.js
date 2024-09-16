@@ -66,6 +66,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
 
+            // Email validation
+            let email = document.getElementById("registrationForm")["email"].value;
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format pattern
+
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                document.getElementById("registrationForm")["email"].style.borderColor = "red";
+                return false;
+            } else {
+                document.getElementById("registrationForm")["email"].style.borderColor = ""; // Reset border color
+            }
+
             // Password validation
             let password = document.getElementById("registrationForm")["password"].value;
             let repeatPassword = document.getElementById("registrationForm")["repeatPassword"].value;
@@ -97,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     validateForm();
 });
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
