@@ -44,72 +44,91 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
     function validateForm() {
-        let buttonclick = document.getElementById("submitButton");
-        buttonclick.addEventListener("click", function (event) {
-            event.preventDefault(); // Prevent form submission before validation
+        let isValid = true; // Track if form is valid
 
-            let fields = ["name", "email", "password", "repeatPassword"];
-            let fieldLength = fields.length;
-            let fieldName = "";
+        // Clear previous error messages
+        clearErrors();
 
-            for (var i = 0; i < fieldLength; i++) {
-                fieldName = fields[i];
-                let field = document.getElementById("registrationForm")[fieldName];
+        // Name validation
+        let nameField = document.getElementById("name");
+        if (nameField.value.trim() === "") {
+            displayError(nameField, "Name cannot be empty");
+            isValid = false;
+        }
 
-                // Check if any field is empty
-                if (field.value === "") {
-                    alert(fieldName + " cannot be empty, please re-enter your information");
-                    field.style.borderColor = "red";
-                    return false;
-                } else {
-                    field.style.borderColor = ""; // Reset border color if field is valid
-                }
-            }
+        // Email validation
+        let emailField = document.getElementById("email");
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailField.value.trim() === "") {
+            displayError(emailField, "Email cannot be empty");
+            isValid = false;
+        } else if (!emailPattern.test(emailField.value)) {
+            displayError(emailField, "Please enter a valid email address");
+            isValid = false;
+        }
 
-            // Email validation
-            let email = document.getElementById("registrationForm")["email"].value;
-            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format pattern
+        // Password validation
+        let passwordField = document.getElementById("password");
+        let passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+        if (passwordField.value.trim() === "") {
+            displayError(passwordField, "Password cannot be empty");
+            isValid = false;
+        } else if (!passwordPattern.test(passwordField.value)) {
+            displayError(passwordField, "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a digit.");
+            isValid = false;
+        }
 
-            if (!emailPattern.test(email)) {
-                alert("Please enter a valid email address.");
-                document.getElementById("registrationForm")["email"].style.borderColor = "red";
-                return false;
-            } else {
-                document.getElementById("registrationForm")["email"].style.borderColor = ""; // Reset border color
-            }
+        // Repeat Password validation
+        let repeatPasswordField = document.getElementById("repeatPassword");
+        if (repeatPasswordField.value.trim() === "") {
+            displayError(repeatPasswordField, "Repeat Password cannot be empty");
+            isValid = false;
+        } else if (repeatPasswordField.value !== passwordField.value) {
+            displayError(repeatPasswordField, "Passwords do not match");
+            isValid = false;
+        }
 
-            // Password validation
-            let password = document.getElementById("registrationForm")["password"].value;
-            let repeatPassword = document.getElementById("registrationForm")["repeatPassword"].value;
-            let passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+        // If form is valid, display success message
+        if (isValid) {
+            let successMessage = document.getElementById("successMessage");
+            successMessage.innerHTML = "Wow, nice submission!";
+            successMessage.style.color = "green";
+        }
 
-            // Check password requirements
-            if (!passwordPattern.test(password)) {
-                alert("Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one digit.");
-                document.getElementById("registrationForm")["password"].style.borderColor = "red";
-                return false;
-            } else {
-                document.getElementById("registrationForm")["password"].style.borderColor = ""; // Reset border color
-            }
-
-            // Check if password and repeat password match
-            if (password !== repeatPassword) {
-                alert("Passwords do not match. Please try again.");
-                document.getElementById("registrationForm")["repeatPassword"].style.borderColor = "red";
-                return false;
-            } else {
-                document.getElementById("registrationForm")["repeatPassword"].style.borderColor = ""; // Reset border color
-            }
-
-            let success = document.getElementById("successMessage");
-            success.innerHTML = "Wow, nice submission!";
-            return true;
-        });
+        return isValid; // Return form validation status
     }
 
-    validateForm();
-});
+    // Function to display error messages
+    function displayError(inputElement, message) {
+        let errorElement = inputElement.nextElementSibling; // Assumes an empty <div> or <span> after input for error messages
+        errorElement.innerHTML = message;
+        errorElement.style.color = "red";
+        inputElement.style.borderColor = "red";
+    }
 
+    // Function to clear previous errors
+    function clearErrors() {
+        let errorMessages = document.querySelectorAll(".error-message");
+        errorMessages.forEach(function (message) {
+            message.innerHTML = "";
+        });
+
+        let inputFields = document.querySelectorAll("input");
+        inputFields.forEach(function (field) {
+            field.style.borderColor = ""; // Reset border color
+        });
+
+        let successMessage = document.getElementById("successMessage");
+        successMessage.innerHTML = ""; // Clear success message
+    }
+
+    // Event listener for the submit button
+    let submitButton = document.getElementById("submitButton");
+    submitButton.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent form submission
+        validateForm();
+    });
+});
 
 
 document.addEventListener("DOMContentLoaded", function () {
