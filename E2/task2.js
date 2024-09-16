@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Name validation
         let nameField = document.getElementById("name");
         if (nameField.value.trim() === "") {
-            displayError(nameField, "Name cannot be empty");
+            displayError("nameError", "Name cannot be empty");
             isValid = false;
         }
 
@@ -60,31 +60,31 @@ document.addEventListener("DOMContentLoaded", function () {
         let emailField = document.getElementById("email");
         let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (emailField.value.trim() === "") {
-            displayError(emailField, "Email cannot be empty");
+            displayError("emailError", "Email cannot be empty");
             isValid = false;
         } else if (!emailPattern.test(emailField.value)) {
-            displayError(emailField, "Please enter a valid email address");
+            displayError("emailError", "Please enter a valid email address");
             isValid = false;
         }
 
-        // Password validation (with optional special characters)
+        // Password validation (allowing special characters @$!%*?&)
         let passwordField = document.getElementById("password");
-        let passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*).{8,}$/;
+        let passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         if (passwordField.value.trim() === "") {
-            displayError(passwordField, "Password cannot be empty");
+            displayError("passwordError", "Password cannot be empty");
             isValid = false;
         } else if (!passwordPattern.test(passwordField.value)) {
-            displayError(passwordField, "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a digit. Special characters are optional.");
+            displayError("passwordError", "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a digit, and one special character (@$!%*?&).");
             isValid = false;
         }
 
         // Repeat Password validation
         let repeatPasswordField = document.getElementById("repeatPassword");
         if (repeatPasswordField.value.trim() === "") {
-            displayError(repeatPasswordField, "Repeat Password cannot be empty");
+            displayError("repeatPasswordError", "Repeat Password cannot be empty");
             isValid = false;
         } else if (repeatPasswordField.value !== passwordField.value) {
-            displayError(repeatPasswordField, "Passwords do not match");
+            displayError("repeatPasswordError", "Passwords do not match");
             isValid = false;
         }
 
@@ -99,11 +99,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Function to display error messages
-    function displayError(inputElement, message) {
-        let errorElement = inputElement.nextElementSibling; // Assumes an empty <div> or <span> after input for error messages
+    function displayError(errorElementId, message) {
+        let errorElement = document.getElementById(errorElementId);
         errorElement.innerHTML = message;
         errorElement.style.color = "red";
-        inputElement.style.borderColor = "red";
     }
 
     // Function to clear previous errors
@@ -129,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
         validateForm();
     });
 });
+
 
 
 
