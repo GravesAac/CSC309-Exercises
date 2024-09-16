@@ -67,14 +67,14 @@ document.addEventListener("DOMContentLoaded", function () {
             isValid = false;
         }
 
-        // Password validation
+        // Password validation (with optional special characters)
         let passwordField = document.getElementById("password");
-        let passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+        let passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*).{8,}$/;
         if (passwordField.value.trim() === "") {
             displayError(passwordField, "Password cannot be empty");
             isValid = false;
         } else if (!passwordPattern.test(passwordField.value)) {
-            displayError(passwordField, "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a digit.");
+            displayError(passwordField, "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a digit. Special characters are optional.");
             isValid = false;
         }
 
@@ -129,6 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
         validateForm();
     });
 });
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
