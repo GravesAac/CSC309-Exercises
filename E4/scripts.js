@@ -47,19 +47,31 @@ function fetchAllData(urls) {
 }
 
 // Task 4: Async/Await for Sequential Fetching (with error handling)
+// Task 4: Async/Await for Sequential Fetching (with improved error handling)
 async function fetchSequentialDataAsync(urls) {
+    let results = [];
     try {
-        let results = [];
+        // Try fetching data from the first URL
         const result1 = await fetchData(urls[0]);
         results.push(result1);
+    } catch (error) {
+        // Handle the error gracefully for the first URL
+        results.push({ error: error.message });
+    }
+
+    try {
+        // Try fetching data from the second URL
         const result2 = await fetchData(urls[1]);
         results.push(result2);
-        return results;
     } catch (error) {
-        console.error('Error during async sequential fetching:', error);
-        throw error; // Or handle error as per your logic
+        // Handle the error gracefully for the second URL
+        results.push({ error: error.message });
     }
+
+    // Return the collected results (including any errors)
+    return results;
 }
+
 
 // Export the functions for auto-testing
 module.exports = {
