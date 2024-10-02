@@ -16,7 +16,7 @@ function fetchData(url) {
     });
 }
 
-// Task 2: Chaining Promises
+// Task 2: Chaining Promises (with improved error handling)
 function fetchSequentialData(urls) {
     let results = [];
     return fetchData(urls[0])
@@ -29,42 +29,24 @@ function fetchSequentialData(urls) {
             return results;
         })
         .catch(error => {
-            console.error('Error in fetching data sequentially:', error);
-            throw error;
+            console.error('Error during sequential fetching:', error);
+            return results; // Return partial results or handle it as per requirement
         });
 }
 
-// Optional: Extending fetchSequentialData to handle any size of URLs array
-// function fetchSequentialData(urls) {
-//     let results = [];
-//     let promise = Promise.resolve();
-
-//     urls.forEach(url => {
-//         promise = promise
-//             .then(() => fetchData(url))
-//             .then(result => results.push(result))
-//             .catch(error => {
-//                 console.error('Error in fetching data sequentially:', error);
-//                 throw error;
-//             });
-//     });
-
-//     return promise.then(() => results);
-// }
-
-// Task 3: Multiple Promises (Fetching data concurrently)
+// Task 3: Multiple Promises (fetching concurrently, with error handling)
 function fetchAllData(urls) {
-    const promises = urls.map(url => fetchData(url));
+    const promises = urls.map(url => fetchData(url).catch(error => ({ error: error.message }))); // Capture errors without breaking the flow
 
     return Promise.all(promises)
         .then(results => results)
         .catch(error => {
-            console.error('Error in fetching data concurrently:', error);
+            console.error('Error in concurrent fetching:', error);
             throw error;
         });
 }
 
-// Task 4: Power of Async (Using async/await for sequential fetching)
+// Task 4: Async/Await for Sequential Fetching (with error handling)
 async function fetchSequentialDataAsync(urls) {
     try {
         let results = [];
@@ -74,8 +56,8 @@ async function fetchSequentialDataAsync(urls) {
         results.push(result2);
         return results;
     } catch (error) {
-        console.error('Error in fetching data asynchronously:', error);
-        throw error;
+        console.error('Error during async sequential fetching:', error);
+        throw error; // Or handle error as per your logic
     }
 }
 
