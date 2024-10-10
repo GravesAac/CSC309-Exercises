@@ -5,7 +5,6 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   if (req.method === 'PUT') {
-    // Update a book by ID
     const { title, isbn, publishedDate, available } = req.body;
     try {
       const updatedBook = await prisma.book.update({
@@ -24,11 +23,8 @@ export default async function handler(req, res) {
       res.status(500).json({ message: 'Error updating book', error });
     }
   } else if (req.method === 'DELETE') {
-    // Delete a book by ID
     try {
-      await prisma.book.delete({
-        where: { id: parseInt(id) },
-      });
+      await prisma.book.delete({ where: { id: parseInt(id) } });
       res.status(200).json({ message: 'Book deleted successfully' });
     } catch (error) {
       if (error.code === 'P2025') return res.status(404).json({ message: 'Book not found' });
