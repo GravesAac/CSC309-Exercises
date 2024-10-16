@@ -1,4 +1,4 @@
-import prisma from '@/utils/db';
+import prisma from '@/lib/prisma'; // Adjust to your Prisma client instance
 import { hashPassword } from '@/utils/auth';
 
 export default async function handler(req, res) {
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
       },
     });
 
-    res.status(201).json({ message: 'User registered successfully', user: { id: user.id, username: user.username, role: user.role } });
+    res.status(201).json({ user: { id: user.id, username: user.username, role: user.role } });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while registering the user.' });
   }
