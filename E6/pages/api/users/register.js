@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       where: { username },
     });
     if (existingUser) {
-      return res.status(409).json({ error: 'Username already exists.' });
+      return res.status(400).json({ error: 'Username already exists.' });
     }
 
     const hashedPassword = await hashPassword(password);
