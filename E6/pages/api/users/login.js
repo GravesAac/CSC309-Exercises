@@ -1,4 +1,4 @@
-import prisma from '@/lib/prisma';
+import prisma from '@/utils/db';
 import { comparePassword, generateAccessToken, generateRefreshToken } from '@/utils/auth';
 
 export default async function handler(req, res) {
