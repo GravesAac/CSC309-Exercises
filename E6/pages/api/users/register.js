@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       where: { username },
     });
     if (existingUser) {
-      return res.status(400).json({ error: 'Username already exists.' });
+      return res.status(409).json({ error: 'Username already exists.' });
     }
 
     const hashedPassword = await hashPassword(password);
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
       },
     });
 
-    res.status(201).json({ user: { id: user.id, username: user.username, role: user.role } });
+    res.status(201).json({ message: 'User registered successfully', user: { id: user.id, username: user.username, role: user.role } });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while registering the user.' });
   }
