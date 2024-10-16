@@ -1,4 +1,4 @@
-import prisma from '@/lib/prisma'; // Adjust to your Prisma client instance
+import prisma from '@/utils/db';
 import { hashPassword } from '@/utils/auth';
 
 export default async function handler(req, res) {
