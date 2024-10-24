@@ -87,11 +87,11 @@
       if (type === 'Length') {
         options = ['Meters', 'Feet'];
       } else if (type === 'Weight') {
-        options = ['Kilograms', 'Pounds'];
+        options = ['Kilogram', 'Pounds'];
       } else if (type === 'Temperature') {
         options = ['Celsius', 'Fahrenheit', 'Kelvin'];
       } else if (type === 'Area') {
-        options = ['Square Meters', 'Square Feet'];
+        options = ['Square Meter', 'Square Feet'];
       }
 
       options.forEach(option => {
@@ -148,16 +148,16 @@
         if (fromUnit === 'Meters' && toUnit === 'Feet') return value * 3.28084;
         if (fromUnit === 'Feet' && toUnit === 'Meters') return value / 3.28084;
       } else if (type === 'Weight') {
-        if (fromUnit === 'Kilograms' && toUnit === 'Pounds') return value * 2.20462;
-        if (fromUnit === 'Pounds' && toUnit === 'Kilograms') return value / 2.20462;
+        if (fromUnit === 'Kilogram' && toUnit === 'Pounds') return value * 2.20462;
+        if (fromUnit === 'Pounds' && toUnit === 'Kilogram') return value / 2.20462;
       } else if (type === 'Temperature') {
         if (fromUnit === 'Celsius' && toUnit === 'Fahrenheit') return value * 9/5 + 32;
         if (fromUnit === 'Fahrenheit' && toUnit === 'Celsius') return (value - 32) * 5/9;
         if (fromUnit === 'Celsius' && toUnit === 'Kelvin') return value + 273.15;
         if (fromUnit === 'Kelvin' && toUnit === 'Celsius') return value - 273.15;
       } else if (type === 'Area') {
-        if (fromUnit === 'Square Meters' && toUnit === 'Square Feet') return value * 10.7639;
-        if (fromUnit === 'Square Feet' && toUnit === 'Square Meters') return value / 10.7639;
+        if (fromUnit === 'Square Meter' && toUnit === 'Square Feet') return value * 10.7639;
+        if (fromUnit === 'Square Feet' && toUnit === 'Square Meter') return value / 10.7639;
       }
       return 0;
     }
