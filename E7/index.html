@@ -94,37 +94,98 @@
         options = ['Square Meter', 'Square Feet'];
       }
 
+      // Populate lhs dropdown
       options.forEach(option => {
         const lhsOption = document.createElement('option');
         lhsOption.value = option;
         lhsOption.textContent = option;
         lhsDropdown.appendChild(lhsOption);
+      });
 
+      // Set default selection
+      lhsDropdown.value = options[0];
+      updateRHSUnits(); // Update rhs dropdown based on initial lhs selection
+    }
+
+    function adjustUnits(direction) {
+      if (direction === 'lhs') {
+        updateRHSUnits(); // Update rhs dropdown based on the new lhs selection
+      } else if (direction === 'rhs') {
+        updateLHSUnits(); // Update lhs dropdown if needed based on rhs selection
+      }
+      convert('lhs'); // Trigger conversion when units are adjusted
+    }
+
+    function updateRHSUnits() {
+      const lhsDropdown = document.getElementById('lhs-unit');
+      const rhsDropdown = document.getElementById('rhs-unit');
+      const selectedLHSUnit = lhsDropdown.value;
+
+      // Get options based on current conversion type
+      const conversionType = document.getElementById('conversion-type').value;
+      let options = [];
+      if (conversionType === 'Length') {
+        options = ['Meters', 'Feet'];
+      } else if (conversionType === 'Weight') {
+        options = ['Kilogram', 'Pounds'];
+      } else if (conversionType === 'Temperature') {
+        options = ['Celsius', 'Fahrenheit', 'Kelvin'];
+      } else if (conversionType === 'Area') {
+        options = ['Square Meter', 'Square Feet'];
+      }
+
+      // Remove selected lhs unit from rhs options
+      const filteredOptions = options.filter(option => option !== selectedLHSUnit);
+
+      // Update rhs dropdown
+      rhsDropdown.innerHTML = '';
+      filteredOptions.forEach(option => {
         const rhsOption = document.createElement('option');
         rhsOption.value = option;
         rhsOption.textContent = option;
         rhsDropdown.appendChild(rhsOption);
       });
 
-      lhsDropdown.value = options[0];
-      rhsDropdown.value = options[1];
+      // Set a default selection if the current selection is invalid
+      if (!filteredOptions.includes(rhsDropdown.value)) {
+        rhsDropdown.value = filteredOptions[0];
+      }
     }
 
-    function adjustUnits(direction) {
-      const lhsUnit = document.getElementById('lhs-unit');
-      const rhsUnit = document.getElementById('rhs-unit');
+    function updateLHSUnits() {
+      const lhsDropdown = document.getElementById('lhs-unit');
+      const rhsDropdown = document.getElementById('rhs-unit');
+      const selectedRHSUnit = rhsDropdown.value;
 
-      if (direction === 'lhs') {
-        if (lhsUnit.value === rhsUnit.value) {
-          rhsUnit.value = lhsUnit.options[(lhsUnit.selectedIndex + 1) % lhsUnit.options.length].value;
-        }
-      } else if (direction === 'rhs') {
-        if (lhsUnit.value === rhsUnit.value) {
-          lhsUnit.value = rhsUnit.options[(rhsUnit.selectedIndex + 1) % rhsUnit.options.length].value;
-        }
+      // Get options based on current conversion type
+      const conversionType = document.getElementById('conversion-type').value;
+      let options = [];
+      if (conversionType === 'Length') {
+        options = ['Meters', 'Feet'];
+      } else if (conversionType === 'Weight') {
+        options = ['Kilogram', 'Pounds'];
+      } else if (conversionType === 'Temperature') {
+        options = ['Celsius', 'Fahrenheit', 'Kelvin'];
+      } else if (conversionType === 'Area') {
+        options = ['Square Meter', 'Square Feet'];
       }
-      
-      convert('lhs'); // Trigger conversion when units are adjusted
+
+      // Remove selected rhs unit from lhs options
+      const filteredOptions = options.filter(option => option !== selectedRHSUnit);
+
+      // Update lhs dropdown
+      lhsDropdown.innerHTML = '';
+      filteredOptions.forEach(option => {
+        const lhsOption = document.createElement('option');
+        lhsOption.value = option;
+        lhsOption.textContent = option;
+        lhsDropdown.appendChild(lhsOption);
+      });
+
+      // Set a default selection if the current selection is invalid
+      if (!filteredOptions.includes(lhsDropdown.value)) {
+        lhsDropdown.value = filteredOptions[0];
+      }
     }
 
     function convert(direction) {
