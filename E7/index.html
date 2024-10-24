@@ -136,10 +136,10 @@
 
       if (direction === 'lhs' && !isNaN(lhsValue)) {
         rhsValue = performConversion(conversionType, lhsUnit, rhsUnit, lhsValue);
-        document.getElementById('rhs-input').value = rhsValue;
+        document.getElementById('rhs-input').value = rhsValue.toFixed(2);
       } else if (direction === 'rhs' && !isNaN(rhsValue)) {
         lhsValue = performConversion(conversionType, rhsUnit, lhsUnit, rhsValue);
-        document.getElementById('lhs-input').value = lhsValue;
+        document.getElementById('lhs-input').value = lhsValue.toFixed(2);
       }
     }
 
