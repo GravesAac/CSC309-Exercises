@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Purpose Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    .converter {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    select, input {
+      width: calc(50% - 10px);
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .input-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Multi-Purpose Converter</h1>
+    
+    <!-- Conversion Type Dropdown -->
+    <div class="converter">
+      <label for="conversion-type">Select Conversion Type:</label>
+      <select id="conversion-type" onchange="resetConverter()">
+        <option value="Length">Length</option>
+        <option value="Weight">Weight</option>
+        <option value="Temperature">Temperature</option>
+        <option value="Area">Area</option>
+      </select>
+
+      <!-- Input Fields and Unit Dropdowns -->
+      <div class="input-group">
+        <select id="lhs-unit" onchange="adjustUnits('lhs')"></select>
+        <input type="text" id="lhs-input" oninput="convert('lhs')" placeholder="Enter value">
+      </div>
+      <div class="input-group">
+        <select id="rhs-unit" onchange="adjustUnits('rhs')"></select>
+        <input type="text" id="rhs-input" oninput="convert('rhs')" placeholder="Converted value">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      resetConverter(); // Initialize the converter with default values
+    });
+
+    function resetConverter() {
+      document.getElementById('lhs-input').value = '';
+      document.getElementById('rhs-input').value = '';
+
+      const conversionType = document.getElementById('conversion-type').value;
+      populateUnitDropdowns(conversionType);
+    }
+
+    function populateUnitDropdowns(type) {
+      const lhsDropdown = document.getElementById('lhs-unit');
+      const rhsDropdown = document.getElementById('rhs-unit');
+
+      lhsDropdown.innerHTML = '';
+      rhsDropdown.innerHTML = '';
+
+      let options = [];
+      if (type === 'Length') {
+        options = ['Meters', 'Feet'];
+      } else if (type === 'Weight') {
+        options = ['Kilograms', 'Pounds'];
+      } else if (type === 'Temperature') {
+        options = ['Celsius', 'Fahrenheit', 'Kelvin'];
+      } else if (type === 'Area') {
+        options = ['Square Meters', 'Square Feet'];
+      }
+
+      options.forEach(option => {
+        const lhsOption = document.createElement('option');
+        lhsOption.value = option;
+        lhsOption.textContent = option;
+        lhsDropdown.appendChild(lhsOption);
+
+        const rhsOption = document.createElement('option');
+        rhsOption.value = option;
+        rhsOption.textContent = option;
+        rhsDropdown.appendChild(rhsOption);
+      });
+
+      lhsDropdown.value = options[0];
+      rhsDropdown.value = options[1];
+    }
+
+    function adjustUnits(direction) {
+      const lhsUnit = document.getElementById('lhs-unit');
+      const rhsUnit = document.getElementById('rhs-unit');
+
+      if (direction === 'lhs') {
+        if (lhsUnit.value === rhsUnit.value) {
+          rhsUnit.value = lhsUnit.options[(lhsUnit.selectedIndex + 1) % lhsUnit.options.length].value;
+        }
+      } else if (direction === 'rhs') {
+        if (lhsUnit.value === rhsUnit.value) {
+          lhsUnit.value = rhsUnit.options[(rhsUnit.selectedIndex + 1) % rhsUnit.options.length].value;
+        }
+      }
+      
+      convert('lhs'); // Trigger conversion when units are adjusted
+    }
+
+    function convert(direction) {
+      const conversionType = document.getElementById('conversion-type').value;
+      const lhsUnit = document.getElementById('lhs-unit').value;
+      const rhsUnit = document.getElementById('rhs-unit').value;
+      let lhsValue = parseFloat(document.getElementById('lhs-input').value);
+      let rhsValue = parseFloat(document.getElementById('rhs-input').value);
+
+      if (direction === 'lhs' && !isNaN(lhsValue)) {
+        rhsValue = performConversion(conversionType, lhsUnit, rhsUnit, lhsValue);
+        document.getElementById('rhs-input').value = rhsValue;
+      } else if (direction === 'rhs' && !isNaN(rhsValue)) {
+        lhsValue = performConversion(conversionType, rhsUnit, lhsUnit, rhsValue);
+        document.getElementById('lhs-input').value = lhsValue;
+      }
+    }
+
+    function performConversion(type, fromUnit, toUnit, value) {
+      if (type === 'Length') {
+        if (fromUnit === 'Meters' && toUnit === 'Feet') return value * 3.28084;
+        if (fromUnit === 'Feet' && toUnit === 'Meters') return value / 3.28084;
+      } else if (type === 'Weight') {
+        if (fromUnit === 'Kilograms' && toUnit === 'Pounds') return value * 2.20462;
+        if (fromUnit === 'Pounds' && toUnit === 'Kilograms') return value / 2.20462;
+      } else if (type === 'Temperature') {
+        if (fromUnit === 'Celsius' && toUnit === 'Fahrenheit') return value * 9/5 + 32;
+        if (fromUnit === 'Fahrenheit' && toUnit === 'Celsius') return (value - 32) * 5/9;
+        if (fromUnit === 'Celsius' && toUnit === 'Kelvin') return value + 273.15;
+        if (fromUnit === 'Kelvin' && toUnit === 'Celsius') return value - 273.15;
+      } else if (type === 'Area') {
+        if (fromUnit === 'Square Meters' && toUnit === 'Square Feet') return value * 10.7639;
+        if (fromUnit === 'Square Feet' && toUnit === 'Square Meters') return value / 10.7639;
+      }
+      return 0;
+    }
+  </script>
+</body>
+</html>
