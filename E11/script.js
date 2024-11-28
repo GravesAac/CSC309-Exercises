@@ -1,5 +1,5 @@
 function getBaseUrl() {
-    return "https://d3kwdm2jsd.execute-api.us-east-2.amazonaws.com/default";
+    return "https://o0oaomql7c.execute-api.us-east-2.amazonaws.com/";
   }
   
   function getUTorId() {
