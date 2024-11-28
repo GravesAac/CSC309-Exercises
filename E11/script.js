@@ -1,5 +1,5 @@
 function getBaseUrl() {
-    return "https://d3kwdm2jsd.execute-api.us-east-2.amazonaws.com/default/csc309e11";
+    return "https://d3kwdm2jsd.execute-api.us-east-2.amazonaws.com/default";
   }
   
   function getUTorId() {
