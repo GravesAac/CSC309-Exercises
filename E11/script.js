@@ -3,7 +3,7 @@ function getBaseUrl() {
   }
   
   function getUTorId() {
-    return xiaguan2;
+    return "xiaguan2";
   }
   
   module.exports = {
